@@ -13,6 +13,10 @@ export default {
   },
   created () {
     this.$store.dispatch('fetchQuestions', {})
+    console.log(this.questions)
+  },
+  mounted() {
+    console.log(this.questions)
   },
   computed: {
     questions () {

@@ -29,6 +29,7 @@ class QuestionController {
       .populate('answers')
       .sort({createdAt: -1})
       .then(questions=>{
+        console.log(JSON.stringify(questions, null, 2));
         res.status(200).json(questions)
       })
       .catch(next)
