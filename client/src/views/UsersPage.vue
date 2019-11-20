@@ -1,6 +1,6 @@
 <template>
-  <div class="flex justify-center h-20 items-center">
-    <h2>INI TAG PAGE</h2>
+  <div class="flex justify-center items-center">
+    <div>INI USERS PAGE</div>
   </div>
 </template>
 
