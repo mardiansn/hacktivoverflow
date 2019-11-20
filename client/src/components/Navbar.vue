@@ -30,6 +30,7 @@ export default {
       this.$store.commit('SET_LOGIN_STATUS', false)
       localStorage.removeItem('token')
       this.$notify({ type: 'success', title: 'Successfully logout', text: 'See you again..' })
+      this.$router.push('/landing')
     },
     search () {
       this.$store.dispatch('searchQuestion', { keyword: this.keyword })

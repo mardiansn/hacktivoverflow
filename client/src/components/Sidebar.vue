@@ -1,5 +1,5 @@
 <template>
-  <aside class="bg-gray-100 flex-column justify-start py-10" style="height: 92vh;">
+  <aside class="bg-gray-500 flex-column justify-start py-10" style="height: 92vh;">
     <div @click="goHome" class="cursor-pointer side-menu w-full hover:bg-yellow-400 h-10 flex items-center justify-center">
       <a class="px-2 color-gray-800">Public</a>
     </div>

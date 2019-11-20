@@ -6,8 +6,8 @@
       <div class="w-full flex justify-center items-center p-2"><i class="fas fa-caret-down text-lg cursor-pointer" :class="downvoted"></i></div>
     </div>
     <div class="question-content w-3/4 flex-column justify-start p-2">
-      <div class="w-full flex justify-start"><p class="text-md">{{ question.owner.name }}</p></div>
-      <div class="w-full flex justify-start"><p class="text-lg font-bold">{{ question.title }}</p></div>
+      <!-- <div class="w-full flex justify-start"><p class="text-md">{{ question.owner.name }}</p></div> -->
+      <div class="w-full flex justify-start"><p class="text-lg font-bold cursor-pointer hover:text-blue-500" @click="questionDetail">{{ question.title }}</p></div>
       <div class="w-full text-left" v-html="question.description"></div>
     </div>
   </div>
@@ -23,6 +23,11 @@ export default {
     }
   },
   props: ['question'],
+  methods: {
+    questionDetail () {
+      this.$router.push(`/${this.question._id}`)
+    }
+  },
   computed: {
     votes () {
       return this.question.upVotes.length - this.question.downVotes.length

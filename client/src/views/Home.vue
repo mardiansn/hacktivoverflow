@@ -1,5 +1,5 @@
 <template>
-  <div class="home p-2 flex w-full" style="height: 92vh;">
+  <div class="home flex w-full" style="height: 92vh;">
     <Sidebar style="width: 15%;"></Sidebar>
     <div class=" width: 85% main-page flex justify-center mx-auto p-4">
       <router-view></router-view>
