@@ -2,19 +2,28 @@
   <div id="app">
     <Navbar></Navbar>
     <notifications position="top left"/>
-    <div class="w-full flex">
-    <Sidebar style="width: 15%;"></Sidebar>
-    <router-view style="height: 92vh; width: 85%; margin: 0 auto; padding: 10px;"/>
+    <div class="w-full">
+    <router-view/>
     </div>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar'
-import Sidebar from './components/Sidebar'
 export default {
   components: {
-    Navbar, Sidebar
+    Navbar
+  },
+  created () {
+    this.$store.dispatch('verify')
+      .then(({ data }) => {
+        this.$notify({ type: 'success', title: data.message })
+        this.$store.commit('SET_LOGIN_STATUS', true)
+      })
+      .catch(({ response }) => {
+        this.$notify({ type: 'error', title: response.data.message })
+        localStorage.clear()
+      })
   }
 }
 </script>

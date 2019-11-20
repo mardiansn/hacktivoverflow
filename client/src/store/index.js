@@ -23,6 +23,7 @@ export default new Vuex.Store({
   },
   actions: {
     login ({ commit }, payload) {
+      console.log(payload, 'STORE LINE 26');
       return axios({
         method: 'POST',
         url: '/users/login',
@@ -53,9 +54,13 @@ export default new Vuex.Store({
       })
     },
     fetchQuestions ({ commit }, payload) {
+      let keyword = ''
+      if (payload.keyword) {
+        keyword = payload.keyword
+      }
       axios({
         method: 'GET',
-        url: `/questions?keyword=${payload.keyword}`,
+        url: `/questions?keyword=${keyword}`,
         headers: {
           token: localStorage.getItem('token')
         }

@@ -19,7 +19,7 @@
 export default {
   methods: {
     goHome () {
-      this.$router.push('/')
+      this.$router.push('/questions')
     },
     goTags () {
       this.$router.push('/tag')
