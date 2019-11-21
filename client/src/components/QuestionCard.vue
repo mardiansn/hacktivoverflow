@@ -1,14 +1,30 @@
 <template>
-  <div class="flex p-2 justify-between shadow-lg">
-    <div class="question-votes w-1/4 flex-column justify-start">
-      <div class="w-full flex justify-center items-center p-2"><i class="fas fa-caret-up text-lg cursor-pointer" :class="upvoted"></i></div>
-      <div class="w-full flex justify-center items-center p-2"><span class="text-xl">{{ votes }}</span></div>
-      <div class="w-full flex justify-center items-center p-2"><i class="fas fa-caret-down text-lg cursor-pointer" :class="downvoted"></i></div>
+  <div class="flex p-2 justify-between shadow-lg w-4/5 mx-auto">
+    <div class="question-votes w-1/4 flex justify-around">
+      <div class="w-full flex-column justify-center items-center p-2">
+        <span class="text-xl w-full" style="display:block;">Answers</span>
+        <span class="text-xl w-full" style="display:block;">{{ question.answers.length }}</span>
+        </div>
+      <div class="w-full flex-column justify-center items-center p-2">
+        <span class="text-xl w-full" style="display:block;">Votes</span>
+        <span class="text-xl w-full" style="display:block;">{{ votes }}</span>
+        </div>
     </div>
-    <div class="question-content w-3/4 flex-column justify-start p-2">
-      <!-- <div class="w-full flex justify-start"><p class="text-md">{{ question.owner.name }}</p></div> -->
-      <div class="w-full flex justify-start"><p class="text-lg font-bold cursor-pointer hover:text-blue-500" @click="questionDetail">{{ question.title }}</p></div>
-      <div class="w-full text-left" v-html="question.description"></div>
+    <div class="question-content w-2/4 flex-column justify-start p-2">
+      <div class="w-full flex justify-start p-4">
+        <p class="text-lg font-bold cursor-pointer hover:text-blue-500"
+        @click="questionDetail">{{ question.title }}</p>
+        </div>
+      <div class="w-full flex justify-start">
+        <span class="bg-green-300 text-sm mx-1 px-2 py-1 hover:bg-green-200 cursor-pointer"
+        v-for="tag in question.tags" :key="tag" @click="searchTag(tag)">{{tag}}</span>
+      </div>
+    </div>
+    <div class="question-data flex-column justify-center w-1/4 p-2">
+      <div class="w-full flex">
+        <span style="display:block" class="w-full">{{ new Date(question.createdAt).toDateString()}}</span>
+        <span style="display:block" class="w-full">{{ question.owner ? question.owner.username : null }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -26,23 +42,21 @@ export default {
   methods: {
     questionDetail () {
       this.$router.push(`/${this.question._id}`)
+    },
+    searchTag (tag) {
+      this.$store.commit('SET_KEYWORD', tag)
+      this.$store.dispatch('fetchQuestions', { keyword: tag })
+      this.$store.commit('SET_KEYWORD', '')
     }
   },
   computed: {
     votes () {
-      return this.question.upVotes.length - this.question.downVotes.length
-    }
-  },
-  watch: {
-    'question.upVotes' () {
-      if (this.question.upVotes.includes(localStorage.getItem('userId'))) {
-        this.upvoted = 'text-green-400'
+      let vote 
+      if(this.question){
+        vote = this.question.upVotes.length - this.question.downVotes.length 
       }
-    },
-    'question.downVotes' () {
-      if (this.question.downVotes.includes(localStorage.getItem('userId'))) {
-        this.downvoted = 'text-red-400'
-      }
+      return vote
+      
     }
   }
 }

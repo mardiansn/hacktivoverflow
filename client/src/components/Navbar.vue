@@ -1,16 +1,18 @@
 <template>
-  <nav class="p-2 flex justify-between bg-gray-600 items-center shadow-lg" style="height: 8vh;">
+  <nav id="navbar" class="flex justify-between bg-gray-600 items-center shadow-lg p-4">
     <div class="nav-section flex justify-start items-center w-1/6">
-      <div class="nav-logo">Logo</div>
+      <div class="nav-logo h-16 px-16">
+        <img src="../assets/teje-logo.png" alt="logo" class="h-full">
+      </div>
     </div>
     <div class="nav-section flex justify-center items-center p-2 w-1/2">
       <form @submit.prevent="search" class="w-1/2">
-        <input v-model="keyword" type="search" class="px-2 w-full bg-gray-600 outline-none text-white" style="border:none; border-bottom: 0.8px solid black">
+        <input v-model="keyword" type="search" class="p-2 w-full bg-gray-600 outline-none text-white" style="border:none; border-bottom: 0.8px solid black">
       </form>
     </div>
     <div class="nav-section flex justify-between items-center w-1/6">
       <div class="nav-item flex items-center">
-        <button class="px-4 py-2 bg-yellow-400 mx-4" @click="addQuestion">Add Question</button>
+        <button v-if="loginStatus" class="px-4 py-2 bg-yellow-400 mx-4" @click="addQuestion">Ask Question</button>
       </div>
       <div class="nav-item flex-items-center">
         <i class="fas fa-door-open text-2xl mx-4 hover:text-red-400 text-white cursor-pointer" @click="logout"></i>
@@ -33,7 +35,10 @@ export default {
       this.$router.push('/landing')
     },
     search () {
-      this.$store.dispatch('searchQuestion', { keyword: this.keyword })
+      this.$store.dispatch('fetchQuestions', { keyword: this.keyword })
+      if(this.$route.name !== 'questions') {
+        this.$router.push('/questions')
+      }
     },
     addQuestion () {
       this.$router.push('/addquestion')
@@ -48,5 +53,10 @@ export default {
 </script>
 
 <style>
-
+#navbar {
+  height: 8vh;
+  position: sticky;
+  top: -1;
+  width: 100%;
+}
 </style>

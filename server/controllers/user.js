@@ -69,6 +69,7 @@ class UserController {
   static addTag (req, res, next) {
     const { tag } = req.params
     const { id } = req.loggedUser
+    console.log(tag, id);
 
     User.findById(id)
       .then(user => {
@@ -113,7 +114,7 @@ class UserController {
   }
   static findTags (req, res, next) {
     const { tag } = req.params
-    let result = {}
+    let result = { name: tag }
     Question.find({ tags: tag })
       .then(questions => {
         result.questions = questions
@@ -165,6 +166,15 @@ class UserController {
       catch(err){
         next(err)
       }
+    }
+    static watchedTags (req, res, next ){
+      const { id } = req.loggedUser
+      User.findById(id)
+        .then(user => {
+          const tags = user.watchedTags
+          res.status(200).json(tags)
+        })
+        .catch(next)
     }
 }
 

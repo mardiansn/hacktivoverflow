@@ -8,12 +8,14 @@ class QuestionController {
     const { id } = req.loggedUser
     Question.create({title, description, tags, owner: id })
       .then(question=>{
-        res.status(201).json(question)
+        res.status(201).json({question, message:'Successfully created question'})
       })
       .catch(next)
   }
-  static find (req, res, next) {
-    let { keyword } = req.query;
+  static async find (req, res, next) {
+    let { keyword, page } = req.query;
+    const limit = 5
+
     let objParams
     if (keyword) {
         objParams = { $or: [
@@ -23,40 +25,41 @@ class QuestionController {
             ]
         }
     }
-    
-    Question.find(objParams)
-      .populate('owner')
-      .populate('answers')
-      .sort({createdAt: -1})
-      .then(questions=>{
-        console.log(JSON.stringify(questions, null, 2));
-        res.status(200).json(questions)
-      })
-      .catch(next)
+    try {
+      const questions = await Question.find(objParams).populate('owner').populate({ path: 'answers', populate: { path: 'owner' }}).sort({createdAt: -1}).skip(page * limit).limit(limit)
+      res.status(200).json(questions)
+    }
+    catch(err) {
+      next(err)
+    }
   }
   static findMine (req, res, next ) {
     const owner  = req.loggedUser.id
     Question.find({ owner })
     .populate('owner')
-    .populate('answers')
+    .populate({ path: 'answers', populate: { path: 'owner' }})
     .sort({createdAt: -1})
       .then(questions=>{
         res.status(200).json(questions)
       })
       .catch(next)
   }
-  static findById (req, res, next) {
+  static async findById (req, res, next) {
     const { id } = req.params
-    Question.findById(id)
-      .populate('owner')
-      .populate('answers')
-      .then(question=>{
-        res.status(200).json(question)
-      })
-      .catch(next)
+    try {
+      const question = await Question.findById(id).populate({ path: 'answers', populate: { path: 'owner' }}).populate('owner')
+      res.status(200).json(question)
+    }
+    catch (err) {
+      next(err)
+    }
+    // Question.findById(id).populate('owner').populate('answers')
+    //   .then(question=>{
+    //     res.status(200).json(question)
+    //   })
+    //   .catch(next)
   }
   static update(req, res, next) {
-    console.log('masuk di update');
     const { id } = req.params
     const {description, tags, title} = req.body
     let objParams = { description, tags, title }

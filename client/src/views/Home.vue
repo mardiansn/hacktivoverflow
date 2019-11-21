@@ -1,7 +1,7 @@
 <template>
-  <div class="home flex w-full" style="height: 92vh;">
+  <div class="home flex w-full" style="height: 92vh;margin: 0;">
     <Sidebar style="width: 15%;"></Sidebar>
-    <div class=" width: 85% main-page flex justify-center mx-auto p-4">
+    <div class="main-page flex justify-center mx-auto p-2" style="width: 85%; overflow: scroll;">
       <router-view></router-view>
     </div>
   </div>

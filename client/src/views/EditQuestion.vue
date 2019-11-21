@@ -1,14 +1,15 @@
 <template>
   <div class="p-10 mx-auto">
+    <div class="text-center">Title</div>
     <div class="title-editor flex justify-center">
-      <input type="text" class="px-4 py-2 outline-none" v-model="title">
+      <input type="text" class="px-4 py-2 my-4 outline-none" v-model="title" style="border-bottom: 0.8px solid gray;">
     </div>
-    <div class="question-editor">
+    <div class="question-editor px-20">
       <quill-editor v-model="content"
                 ref="myQuillEditor">
       </quill-editor>
     </div>
-    <div class="my-4 mx-auto flex justify-center">
+    <div class="my-4 flex justify-start px-20">
       <form @submit.prevent="addTag">
           <input
             type="text"
@@ -21,15 +22,15 @@
           >Add</button>
       </form>
     </div>
-    <div class="my-4 mx-auto flex justify-center">
+    <div class="my-4 mx-auto flex justify-start px-20">
       <div v-for="(item, index) in tags" :key="index">
         <span class="p-2 flex items-center justify-between bg-green-200 rounded mx-2">
           {{ item }}
-          <i class="fas fa-times cursor-pointer px-1" @click.prevent="deleteTag(index)"></i>
+          <i class="fas fa-times cursor-pointer px-1" @click.prevent="removeTag(index)"></i>
         </span>
       </div>
     </div>
-    <div class="my-4 mx-auto flex justify-center">
+    <div class="my-4 mx-auto flex justify-center px-20">
       <button class="px-4 py-2 bg-blue-400 hover:bg-blue-600" @click="submitQuestion">{{ button }}</button>
     </div>
   </div>
@@ -47,10 +48,11 @@ export default {
   },
   methods: {
     submitQuestion (button) {
-      if (this.$route.path.includes('editquestion')) {
+      if (this.$route.name === 'editQuestion') {
         this.$store.dispatch('updateQuestion', { id: this.$route.params.id, content: this.content, title: this.title, tags: this.tags })
           .then(({ data }) => {
             this.$notify({ type: 'success', title: data.message })
+            this.$router.push('/questions')
           })
           .catch(({ response }) => {
             this.$notify({ type: 'error', title: response.data.message })
@@ -59,9 +61,10 @@ export default {
         this.$store.dispatch('createQuestion', { content: this.content, title: this.title, tags: this.tags })
           .then(({ data }) => {
             this.$notify({ type: 'success', title: data.message })
+            this.$router.push('/questions')
           })
           .catch(({ response }) => {
-            this.$notify({ type: 'error', title: response.data.message })
+            this.$notify({ type: 'error', title: response.data.message, text: response.data.errors.join(', ') })
           })
       }
     },
@@ -79,25 +82,23 @@ export default {
     }
   },
   created () {
-    if (this.$route.path.includes('editquestion')) {
-      this.$store.dispatch('fetchQuestion', { id: this.$route.params.id })
-        .then(({ data }) => {
-          this.content = data.content
-          this.title = data.title
-          this.tags = data.tags
-        })
-        .catch(({ response }) => {
-          this.$notify({ type: 'error', title: response.data.message })
-        })
+    if (this.$route.name === 'editQuestion') {
+      this.$store.dispatch('fetchAQuestion', { id: this.$route.params.id })
+      this.content = this.question.description
+      this.title = this.question.title
+      this.tags = this.question.tags
     }
   },
   computed: {
     button () {
-      if (this.$route.path.includes('editquestion')) {
+      if (this.$route.name === 'editQuestion') {
         return 'Update Question'
       } else {
         return 'Add Question'
       }
+    },
+    question () {
+      return this.$store.state.question
     }
   }
 }

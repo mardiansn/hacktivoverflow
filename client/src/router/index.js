@@ -6,6 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/landing',
+    name: 'landingPage',
+    component: () => import(/* webpackChunkName: "landingPage" */ '../views/LandingPage.vue')
+  },
+  {
     path: '/',
     name: 'home',
     component: Home,
@@ -21,11 +26,6 @@ const routes = [
         component: () => import(/* webpackChunkName: 'tagPage' */ '../views/TagPage.vue')
       },
       {
-        path: 'users',
-        name: 'usersPage',
-        component: () => import(/* webpackChunkName: 'usersPage' */ '../views/UsersPage.vue')
-      },
-      {
         path: 'addquestion',
         name: 'addQuestion',
         component: () => import(/* webpackChunkName: 'addQuestion' */ '../views/EditQuestion.vue')
@@ -39,14 +39,15 @@ const routes = [
         path: ':id',
         name: 'questionDetail',
         component: () => import(/* webpackChunkName: 'questionDetail' */ '../views/QuestionDetail.vue')
+      },
+      {
+        path: 'tag/:tag',
+        name: 'tagDetail',
+        component: () => import(/* webpackChunkName: 'tagDetail */'../views/TagDetail.vue')
       }
     ]
-  },
-  {
-    path: '/landing',
-    name: 'landingPage',
-    component: () => import(/* webpackChunkName: "landingPage" */ '../views/LandingPage.vue')
   }
+
 ]
 
 const router = new VueRouter({

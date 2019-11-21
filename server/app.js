@@ -4,6 +4,7 @@ const express = require('express')
 const port = process.env.PORT || 3000
 const mongoose = require('mongoose')
 const uri = process.env.MONGO_URI
+// const uri = process.env.MONGO_URI_TEMP
 const cors = require('cors')
 const morgan = require('morgan')
 const routes = require('./routes')

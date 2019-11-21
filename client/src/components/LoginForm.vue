@@ -37,8 +37,8 @@ export default {
   },
   methods: {
     onSignIn (googleUser) {
-      var id_token = googleUser.getAuthResponse().id_token
-      this.$store.dispatch('googleLogin', { id_token })
+      var idToken = googleUser.getAuthResponse().id_token
+      this.$store.dispatch('googleLogin', { id_token: idToken })
         .then(({ data }) => {
           this.$notify({ type: 'success', title: data.message })
           localStorage.setItem('token', data.token)
