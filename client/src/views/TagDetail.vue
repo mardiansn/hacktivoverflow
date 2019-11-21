@@ -72,6 +72,11 @@ export default {
       return button
     }
   },
+  watch: {
+    '$route' () {
+      this.fetchTag()
+    }
+  },
 }
 </script>
 

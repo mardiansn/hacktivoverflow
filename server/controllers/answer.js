@@ -5,14 +5,12 @@ const Question = require('../models/question')
 class AnswerController {
   static create (req, res, next) {
     const { content, questionId } = req.body
-    console.log(req.body);
     const { id } = req.loggedUser
     Answer.create({ content, owner: id, questionId })
       .then(answer=>{
         return Question.findByIdAndUpdate( questionId, { $push: { answers : answer._id}}).populate('answers')
       })
       .then(question=>{
-        console.log(question);
         res.status(201).json({message: 'Successfully created answer'})
       })
       .catch(next)

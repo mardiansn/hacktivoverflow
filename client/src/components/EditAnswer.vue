@@ -37,7 +37,6 @@ export default {
           .then(({ data }) => {
             this.$notify({ type: 'success', title: data.message })
             this.$emit('change')
-            console.log('DI EDIT ANSWER')
           })
           .catch(({ response }) => {
             this.$notify({ type: 'error', title: response.data.message })
