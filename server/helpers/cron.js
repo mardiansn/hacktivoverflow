@@ -28,7 +28,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-nodecron.schedule( '* * * * *' , function () {
+nodecron.schedule( '0 10 * * *' , function () {
   let usersEmail = []
   User.find()
     .then(users => {

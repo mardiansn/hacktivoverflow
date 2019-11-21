@@ -22,7 +22,10 @@ export default {
   beforeEnter: (to, from, next) => {
     if (this.loginStatus) next()
     else next('/landing')
-  }
+  },
+  created() {
+    this.$router.push('/questions')
+  },
 }
 </script>
 <style>

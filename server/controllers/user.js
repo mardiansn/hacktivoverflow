@@ -69,11 +69,9 @@ class UserController {
   static addTag (req, res, next) {
     const { tag } = req.params
     const { id } = req.loggedUser
-    console.log(tag, id);
 
     User.findById(id)
       .then(user => {
-        console.log(user);
         if(!user){
           next({ status: 404, message: 'Not found'})
         } else {
