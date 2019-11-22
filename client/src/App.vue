@@ -10,12 +10,14 @@
 
 <script>
 import Navbar from './components/Navbar'
+import { CronJob } from 'cron'
 export default {
   name: 'App',
   components: {
     Navbar
   },
   created () {
+    this.timeReminder()
     this.$store.dispatch('verify')
       .then(({ data }) => {
         this.$notify({ type: 'success', title: data.message })
@@ -25,6 +27,16 @@ export default {
         this.$notify({ type: 'error', title: response.data.message })
         localStorage.clear()
       })
+  },
+  methods: {
+    timeReminder () {
+      new CronJob(
+      '0 */30 * * * *',
+        () => {
+        this.$notify({ type: 'info', title: 'You have been here 30 minutes. You may need a break.'})
+        }, null, true, 'Asia/Jakarta'
+      ) 
+    }
   }
 }
 </script>
