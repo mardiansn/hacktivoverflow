@@ -1,5 +1,5 @@
 <template>
-  <div id="login-card">
+  <div id="login-card" class="shadow-lg">
     <div class="login-section">
       <h1>Login</h1>
       <br>
@@ -12,15 +12,6 @@
         <input class="login-btn" type="submit" value="Login">
       </form>
     </div>
-    <div class="login-section">
-      <p>Or you login via:</p>
-      <g-signin-button
-        :params="googleSignInParams"
-        @success="onSignIn"
-        @error="onSignInError">
-      Sign in with Google
-      </g-signin-button>
-    </div>
   </div>
 </template>
 
@@ -29,31 +20,10 @@ export default {
   data () {
     return {
       email: '',
-      password: '',
-      googleSignInParams: {
-        client_id: '1037604377022-dnjrdc18d14vnr1ai9gd7jdcir2difh3.apps.googleusercontent.com'
-      }
+      password: ''
     }
   },
   methods: {
-    onSignIn (googleUser) {
-      var idToken = googleUser.getAuthResponse().id_token
-      this.$store.dispatch('googleLogin', { id_token: idToken })
-        .then(({ data }) => {
-          this.$notify({ type: 'success', title: data.message })
-          localStorage.setItem('token', data.token)
-          localStorage.setItem('userId', data.id)
-          this.$store.commit('SET_LOGIN_STATUS', true)
-          this.$store.dispatch('verifyAdmin')
-          this.$router.push('/')
-        })
-        .catch(({ response }) => {
-          this.$notify({ type: 'error', text: response.data.message })
-        })
-    },
-    onSignInError () {
-      this.$notify({ type: 'error', title: 'There is something wrong' })
-    },
     login () {
       this.$store.dispatch('login', { email: this.email, password: this.password })
         .then(({ data }) => {
@@ -82,8 +52,9 @@ export default {
   #login-card {
     display: flex;
     flex-direction: column;
-    padding: 5px;
-    background-color: rgba(245, 245, 220, 0.408);
+    padding: 30px;
+    border-radius: 2px;
+    background-color: rgba(248, 248, 248, 0.408);
     margin: 0 auto;
     width: 50%;
   }
@@ -105,7 +76,7 @@ export default {
     width: 60%;
     margin: 8px auto;
     padding: 6px;
-    background-color: rgba(212, 212, 212, 0.619);
+    background-color: rgba(211, 211, 211, 0.619);
     outline: none;
     color: black;
     border: none;
@@ -116,7 +87,7 @@ export default {
 
   }
   .login-btn {
-    background-color: rgb(146, 146, 146);
+    background-color: rgb(255, 168, 168);
     cursor: pointer;
     width: 60%;
     margin: 8px auto;

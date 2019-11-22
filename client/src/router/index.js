@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import store from '../store/index'
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,13 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
+    beforeEnter: (to, from, next) => {
+      if(store.state.loginStatus) next()
+      else {
+        next('/landing')
+        Vue.notify({ type: error, title: 'You must login first'})
+      }
+    },
     children: [
       {
         path: 'questions',

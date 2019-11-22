@@ -1,5 +1,5 @@
 <template>
-  <div class="flex p-2 justify-between shadow-lg w-4/5 mx-auto">
+  <div class="flex p-8 justify-between shadow-lg w-3/5 mx-auto my-2 border border-gray-100">
     <div class="question-votes w-1/4 flex justify-around">
       <div class="w-full flex-column justify-center items-center p-2">
         <span class="text-xl w-full" style="display:block;">Answers</span>
@@ -10,9 +10,9 @@
         <span class="text-xl w-full" style="display:block;">{{ votes }}</span>
         </div>
     </div>
-    <div class="question-content w-2/4 flex-column justify-start p-2">
-      <div class="w-full flex justify-start p-4">
-        <p class="text-lg font-bold cursor-pointer hover:text-blue-500"
+    <div class="question-content w-2/4 flex-column justify-between p-2">
+      <div class="w-full flex justify-start items-start p-2">
+        <p class="font-bold cursor-pointer hover:text-blue-500"
         @click="questionDetail">{{ question.title }}</p>
         </div>
       <div class="w-full flex justify-start">
@@ -21,7 +21,7 @@
       </div>
     </div>
     <div class="question-data flex-column justify-center w-1/4 p-2">
-      <div class="w-full flex">
+      <div class="w-full flex justify-start">
         <span style="display:block" class="w-full">{{ new Date(question.createdAt).toDateString()}}</span>
         <span style="display:block" class="w-full">{{ question.owner ? question.owner.username : null }}</span>
       </div>

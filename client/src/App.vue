@@ -22,6 +22,7 @@ export default {
       .then(({ data }) => {
         this.$notify({ type: 'success', title: data.message })
         this.$store.commit('SET_LOGIN_STATUS', true)
+        this.$router.push('/')
       })
       .catch(({ response }) => {
         this.$notify({ type: 'error', title: response.data.message })

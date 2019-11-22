@@ -1,5 +1,5 @@
 <template>
-  <div id="register-card">
+  <div id="register-card" class="shadow-lg">
     <div class="register-section">
       <h1>Register</h1>
       <br>
@@ -12,10 +12,6 @@
         <input v-model="password" type="password" placeholder="password">
         <input class="login-btn" type="submit" value="Register">
       </form>
-    </div>
-    <div class="register-section">
-      <p>Or you login via:</p>
-      <button id="google-btn">Google</button>
     </div>
   </div>
 </template>
@@ -56,8 +52,8 @@ export default {
   #register-card {
     display: flex;
     flex-direction: column;
-    padding: 5px;
-    background-color: rgba(245, 245, 220, 0.408);
+    background-color: rgba(245, 245, 245, 0.408);
+    padding: 30px;
     margin: 0 auto;
     /* border: 1px solid orange; */
     width: 50%;
@@ -85,6 +81,7 @@ export default {
     outline: none;
     color: black;
     border: none;
+    transition: 700ms;
   }
   .register-section input:not(:last-child):focus {
     border-bottom: 1px solid rgb(2, 161, 145);
