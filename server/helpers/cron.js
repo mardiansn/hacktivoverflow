@@ -12,21 +12,13 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true, useCrea
   .then(() => console.log('cron connected to database'))
   .catch(err => console.log('failed to connect to database\n', err))
 
-// let transporter = nodemailer.createTransport({
-//   service: "Gmail",
-//   auth: {
-//     user: process.env.GMAIL_ADDRESS,
-//     pass: process.env.GMAIL_PASSWORD
-//   }
-// })
-const transporter = nodemailer.createTransport({
-  host: 'smtp.ethereal.email',
-  port: 587,
+let transporter = nodemailer.createTransport({
+  service: "Gmail",
   auth: {
-      user: 'audreanne.marvin42@ethereal.email',
-      pass: 'BbaaF7UNqZy5RRtNjM'
+    user: process.env.GMAIL_ADDRESS,
+    pass: process.env.GMAIL_PASSWORD
   }
-});
+})
 
 nodecron.schedule( '0 10 * * *' , function () {
   let usersEmail = []
@@ -39,7 +31,7 @@ nodecron.schedule( '0 10 * * *' , function () {
     })
     .then(questions => {
       let mailOptions = {
-        from: 'audreanne.marvin42@ethereal.email',
+        from: process.env.GMAIL_ADDRESS,
         to: usersEmail,
         subject: 'Popular Questions of The Day',
         text: `Good morning, 
@@ -47,8 +39,11 @@ nodecron.schedule( '0 10 * * *' , function () {
 
 
         1. ${questions[0].title}: ${questions[0].answers.length} answers
+            http://teje.mardii.site/${questions[0]._id}
         2. ${questions[1].title}: ${questions[1].answers.length} answers
+            http://teje.mardii.site/${questions[1]._id}
         3. ${questions[2].title}: ${questions[2].answers.length} answers
+            http://teje.mardii.site/${questions[2]._id}
         
 
 
